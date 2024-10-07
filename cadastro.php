@@ -1,7 +1,14 @@
 <?php
 
 
+if (isset($_SESSION['usuario_id'])) {
+  header("location: dashboard.php");
+  exit();
+}
+
+
 require_once 'includes/config.php';
+
 
 $mensagem_sucesso = "";
 $mensagem_erro = "";
@@ -23,18 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if ($resultado->num_rows > 0) {
     $mensagem_erro = "Este email ja esta cadastrado.";
   } else {
-    $sql = "INSERT INTO usuarios (nome, email, senha) Values (?,?,?)";
+    $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?,?,?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('sss', $nome, $email, $senha);
 
 
-   
-   
-   
-   
-  $stmt->close();
-  $conn->close();
-   
     if ($stmt->execute()) {
       $_SESSION['mensagem_sucesso'] = "Cadastro realizado com sucesso";
       header("Location: cadastro.php");
@@ -43,6 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $mensagem_erro = "Erro ao cadastrar" . $conn->error;
     }
   }
+
+
+  $stmt->close();
+  $conn->close();
 }
 
 
@@ -51,25 +55,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/cadastro.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <title>Cadastrar</title>
 </head>
-
-
 <body>
-  <div class= "tudo">
+  <div class="tudo">
     <form action="" method="POST">
-      <img src="blob:https://web.whatsapp.com/adf13a2a-0a07-4324-abe2-bee878baeee5" alt="">
       <h2>Cadastrar</h2>
       
       <label for="nome">Nome:</label>
@@ -81,21 +78,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <label for="senha">Senha:</label>
       <input type="password" id="senha" name="senha" required><br>
 
-
+      <?php if ($mensagem_sucesso): ?>
+        <p><?php echo $mensagem_sucesso; ?></p>
+      <?php endif; ?>
+      <?php if ($mensagem_erro): ?>
+        <p><?php echo $mensagem_erro; ?></p>
+      <?php endif; ?>
       
- 
-       <p>Já tem conta? <a href="index.php">Ir para Login</a></p>
- 
-     
+      <input type="submit" value="Cadastrar">
+      <p>Já tem conta? <a href="index.php">Ir para Login</a></p>
     </form>
-   
   </div>
-
-  <div class="login">
-<input type="submit" value="Login">
-</div>
-
 </body>
-
-
 </html>

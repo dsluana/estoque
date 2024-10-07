@@ -3,6 +3,9 @@
 
 require_once 'includes/config.php';
 
+$mensagem_sucesso = "";
+$mensagem_erro = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $nome = $_POST['nome'];
@@ -25,6 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param('sss', $nome, $email, $senha);
 
 
+   
+   
+   
+   
+  $stmt->close();
+  $conn->close();
+   
     if ($stmt->execute()) {
       $_SESSION['mensagem_sucesso'] = "Cadastro realizado com sucesso";
       header("Location: cadastro.php");
@@ -44,27 +54,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/cadastro.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+    <title>Document</title>
 </head>
 
 
 <body>
-  <div>
+  <div class= "tudo">
     <form action="" method="POST">
-      <h2>Cadastro de usuarios</h2>
+      <img src="blob:https://web.whatsapp.com/adf13a2a-0a07-4324-abe2-bee878baeee5" alt="">
+      <h2>Cadastrar</h2>
+      
       <label for="nome">Nome:</label>
       <input type="text" id="nome" name="nome" required><br>
+
       <label for="email">Email:</label>
       <input type="text" id="email" name="email" required><br>
+
       <label for="senha">Senha:</label>
       <input type="password" id="senha" name="senha" required><br>
 
 
-      <input type="submit" value="Cadastrar">
+      
+ 
+       <p>Já tem conta? <a href="index.php">Ir para Login</a></p>
+ 
+     
     </form>
+   
   </div>
+
+  <div class="login">
+<input type="submit" value="Login">
+</div>
+
 </body>
 
 

@@ -17,7 +17,8 @@ if (!isset($_SESSION['usuario_id'])) {
 
 require_once 'includes/config.php'; // Inclua a conexão correta aqui
 
-// Não feche a conexão aqui, feche no final
+$sql = "SELECT * FROM produtos";
+$resultado = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -25,22 +26,33 @@ require_once 'includes/config.php'; // Inclua a conexão correta aqui
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <title>Lista de Produtos</title>
 </head>
 
 <body>
-    <header>
+    <header class ="cabe">
         <a href="?logout=true">Sair</a>
+        <a href="cadastro-produto.php">Cadastrar produtos</a>
     </header>
     
-    <h1>Bem-vindo, <?php echo $_SESSION['usuario_nome']; ?>!</h1>
-    
-    <!-- Adicione conteúdo do dashboard aqui -->
-    
+    <main>
+        <?php if ($resultado->num_rows > 0): ?>
+            <?php while ($produto = $resultado->fetch_assoc()): ?> <!-- Correção na função fetch_assoc -->
+                <div class="quadrado">
+                
+                    <h3>Nome: <?php echo ($produto['nome']); ?></h3> <!-- Proteção contra XSS -->
+                    <h3>Descrição: <?php echo ($produto['descricao']); ?></h3> <!-- Proteção contra XSS -->
+                    <h3>Quantidade: <?php echo ($produto['quantidade']); ?></h3> <!-- Proteção contra XSS -->
+                    <button>Editar</button>
+                    <button>Excluir</button>
+                </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <p>Nenhum produto cadastrado.</p>
+        <?php endif; ?>
+        
+        <?php $conn->close(); ?>
+    </main>
 </body>
 </html>
-
-<?php
-// Fechar a conexão ao final
-$conn->close();
-?>

@@ -1,0 +1,51 @@
+body{
+    background-image:url(img/download\ \(1\).jfif) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   
+}
+
+main{
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin: 50px;
+width: 90%;
+flex-wrap: wrap;
+}
+
+
+
+.quadrado{
+   text-align: center;
+    margin: 20px;
+    width:300px ;
+    padding: 10px;
+    background-color:rgba(208, 171, 207, 0.7);
+    border: 3px solid  rgb(136, 70, 163);
+     border-radius: 10px;
+   
+}
+.quadrado:hover{
+    scale: 1.2;
+    transition: 0.25s;
+}
+
+.cabe {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-inline: 100px;
+    background-color: rgb(255, 255, 255, 0.8);
+    border-radius: 30px;
+}
+.cabe a{
+   margin-inline: 30px;
+    font-size: 30px;
+    color: black;
+
+}
